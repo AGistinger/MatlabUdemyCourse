@@ -1,0 +1,158 @@
+clc, clear, close all
+
+%% Data Visualization - Creating a Basic Plot
+% Voltages, Resistance, and Current
+U = 1:20; % vector from 1 to 20
+
+R = 10;
+R1 = 10;
+R2 = 20;
+R3 = 30;
+
+I = U / R;
+I1 = U/R1;
+I2 = U/R2;
+I3 = U/R3;
+
+% Plot
+% Will plot data on a graph
+% First argument will plot data for X, 2nd for Y
+% Sizes of data must be identical
+% plot(U, I)
+
+%% Customizing a Plot - Color, LineStyle, LineWidth, Markers, etc
+% plot(U, I, 'LineWidth', 2, 'Color', 'red')
+% plot(U, I, 'g', 'LineWidth', 2)
+% plot(U, I, 'c--', 'LineWidth', 2) % Have a dashed line with color
+% plot(U, I, 'b:', 'LineWidth', 2) % Have a dotted line with color
+% plot(U, I, 'b+-.', 'LineWidth', 2) % you can mix properties in one argument
+% plot(U, I, 'b', 'LineStyle', '-.', 'LineWidth', 2, 'Marker', '+', 'MarkerEdgeColor', 'r') % you can separate out properties
+% plot(U, I1, U, I2, U, I3, 'b', 'LineStyle', '-.', 'LineWidth', 2, 'Marker', '+', 'MarkerEdgeColor', 'r')
+
+%% Another Way for Multiple Plots - Subplot
+% First Subplot
+subplot(2, 2, [1, 3])
+grid on
+grid minor
+% give names to axis, change font size, change font weight, font color
+xlabel('Voltage, [V]', 'FontSize', 16, 'FontWeight', 'Bold', 'Color', 'r')
+ylabel('Current, [A]', 'FontSize', 16, 'FontWeight', 'Bold', 'Color', 'b')
+xLimMin = min(U) - (max(U) * 0.1);% values will dynamically change
+xLimMax = max(U) + (max(U) * 0.1); 
+yLimMin = min(I1) - (max(I1) * 0.1);
+yLimMax = max(I1) + (max(I1) * 0.1);
+
+% Set min/max values for the graph for x and y values
+xlim([xLimMin, xLimMax])
+ylim([yLimMin, yLimMax])
+
+% Different elements in a legend need to be separated by curly brackets {}
+firstLegend = legend('R_1 = 10 [\Omega]')
+set(firstLegend, 'FontSize', 15)
+set(firstLegend, 'FontWeight', 'bold')
+set(firstLegend, 'TextColor', 'b')
+set(firstLegend, 'Location', 'northwest')
+set(firstLegend,'Orientation', 'vertical')
+set(firstLegend, 'Box', 'off')
+
+% Title for graph
+title('Change in Current for R_1, ...
+	'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k')
+
+
+%% Multiple Graphs on the Same Plot
+plot(U, I1, 'b', 'LineStyle', '-.', 'LineWidth', 2, 'Marker', '+', 'MarkerEdgeColor', 'r')
+%hold on % will allow additonal plots to be added to the saem graph
+
+% Second Subplot
+subplot(2, 2, 2)
+plot(U, I2, 'g', 'LineWidth', 2, 'LineStyle', '--', 'Marker', '*", 'MarkerEdgeColor', 'g')
+grid on
+grid minor
+% hold on % have 2 plots  in one index
+% give names to axis, change font size, change font weight, font color
+xlabel('Voltage, [V]', 'FontSize', 16, 'FontWeight', 'Bold', 'Color', 'r')
+ylabel('Current, [A]', 'FontSize', 16, 'FontWeight', 'Bold', 'Color', 'b')
+
+xLimMin = min(U) - (max(U) * 0.1);% values will dynamically change
+xLimMax = max(U) + (max(U) * 0.1); 
+yLimMin = min(I2) - (max(I2) * 0.1);
+yLimMax = max(I2) + (max(I2) * 0.1);
+
+% Set min/max values for the graph for x and y values
+xlim([xLimMin, xLimMax])
+ylim([yLimMin, yLimMax])
+
+% Different elements in a legend need to be separated by curly brackets {}
+secondLegend = legend('R_2 = 20 [\Omega]')
+set(secondLegend, 'FontSize', 15)
+set(secondLegend, 'FontWeight', 'bold')
+set(secondLegend, 'TextColor', 'b')
+set(secondLegend, 'Location', 'northwest')
+set(secondLegend,'Orientation', 'vertical')
+set(secondLegend, 'Box', 'off')
+
+% Title for graph
+title('Change in Current for R_2', ...
+	'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k')
+
+% Third Subplot
+subplot(2, 2, 4)
+plot(U, I3, 'r', 'LineWidth', 2, 'LineStyle', '-', 'Marker', '^', 'MarkerEdgeColor', 'g')
+
+%% Lables and Grids on a Plot
+% grid % will put a grid on the plot (with no arg) (not best practice)
+grid on % will put a grid on the plot and set on/off
+grid minor % will have denser grid lines
+% grid off % turns off grid
+
+% give names to axis, change font size, change font weight, font color
+xlabel('Voltage, [V]', 'FontSize', 16, 'FontWeight', 'Bold', 'Color', 'r')
+ylabel('Current, [A]', 'FontSize', 16, 'FontWeight', 'Bold', 'Color', 'b')
+
+%% Automated Limits for your Plots
+% xLimMin = min(U) - (max(U) * 0.1);% values will dynamically change
+% xLimMax = max(U) + (max(U) * 0.1); 
+% yLimMin = min(I) - (max(I) * 0.1);
+% yLimMax = max(I) + (max(I) * 0.1);
+
+xLimMin = min(U) - (max(U) * 0.1);% values will dynamically change
+xLimMax = max(U) + (max(U) * 0.1); 
+% allYValues = [I1, I2, I3]
+% yLimMin = min(allYValues) - (max(allYValues) * 0.1);
+% yLimMax = max(allYValues) + (max(allYValues) * 0.1);
+
+yLimMin = min(I3) - (max(I3) * 0.1);
+yLimMax = max(I3) + (max(I3) * 0.1);
+
+% Set min/max values for the graph for x and y values
+xlim([xLimMin, xLimMax])
+ylim([yLimMin, yLimMax])
+
+%% Sprinkle Your Plot with a Legend
+% Different elements in a legend need to be separated by curly brackets {}
+% legend({'R_1 = 10 [\Omega]'}, {'R_2 = 20 [\Omega]'}, {'R_3 = 30 [\Omega]'}, ...
+% 	'FontSize', 15, 'FontWeight', 'bold', ...
+% 	'TextColor', 'b', 'Location', 'northwest', 'Orientation', 'vertical', ...
+% 	'Box', 'off')
+
+% Title for graph
+% title('Change in Current for R_1, R_2, and R_3', ...
+% 	'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k')
+	
+% Different elements in a legend need to be separated by curly brackets {}
+thirdLegend = legend('R_3 = 30 [\Omega]');
+set(thirdLegend, 'FontSize', 15)
+set(thirdLegend, 'FontWeight', 'bold')
+set(thirdLegend, 'TextColor', 'b')
+set(thirdLegend, 'Location', 'northwest')
+set(thirdLegend,'Orientation', 'vertical')
+set(thirdLegend, 'Box', 'off')
+
+% Title for graph
+title('Change in Current for R_3', ...
+	'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k')
+
+
+
+

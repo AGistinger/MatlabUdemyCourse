@@ -1,0 +1,190 @@
+clc, clear, close all
+
+%% Loops
+
+%% For Loops
+% The amount of loops depends on the number of elements
+for (i = [1, 2, 3, 4, 5])
+	i;
+end
+
+for (i = 0:10:100)
+	i;
+end
+
+v1 = 1:100:500;
+multipliers = [2, 3, 4, 5];
+for (i = i:length(v1))
+	v1(i) = v1(i) + 1;
+end
+
+% only run on half the vector
+v1 = 1:20;
+for (i = i:length(multipliers) / 2)
+	% v1(i) = v1(i) + 1;
+	v1 * multipliers(i)
+end
+
+% without loops
+v2 = 1:20;
+v2(1:length(v2) / 2) = v2(1:length(v2) /2) + 1;
+
+%% For Loop and Equations
+% element by element operations with loops
+
+% x(t) = x0 + vx * t + (ax * t^2) / 2;
+% y(t) = y0 + vy + t + (ay * t^2) / 2;
+
+angle = pi / 4;
+vX = 10;
+vY = 20;
+aY = -9.8;
+t = 0:0.1:5;
+
+for (i = 1:length(t))
+	x(i) = vX * t(i);
+	y(i) = vY * t(i) + (aY + t(i)^2) / 2;
+end
+
+% Without loops
+% x1 = vX * t;
+% y1 = vY * t + ((aY * (t.^2)) / 2;
+plot(x, y, 'or')
+
+%% Nested Loops
+matrix = zeros(10);
+
+% index from 1 to the size of the first dimension of matrix
+for (i = 1:size(matrix, 1)
+	for (j = 1:size(matrix, 2)
+		matrix(i, j) = i;
+	end
+end
+
+%% While Loop - Conditional Loop
+number = 0;
+counter = 0;
+
+while (number ~= 50)
+	number = randi([40, 60], 1, 1);
+	counter = counter + 1;
+end
+
+% Initial conditions
+angle = pi / 3;
+vX = 10;
+vY = 20;
+aY = -9.8;
+t = 0:0.01:4.5;
+
+% Calculate X and Y
+% x = vX * t;
+% y = vY * t + (aY * t.^2) / 2;
+
+
+%% Calculate the X and Y Points in Space (animating a plot)
+%% Setup
+% Initial Conditions
+angle = pi / 4;					% Initale Angle, [rad]
+x0 = 0;							% Initial X Position [m]
+xV = 1:1:10;						% Velocities on the X Axis, [m/s]
+xA = 0;							% Initial Acceleration on the X axis [m/s^2]
+xAngle = cos(angle);			% The X Component of the Angle
+y0 = 0;							% Initial Y Position [m]
+yV = 15:1:24;						% Velocities on the Y Axis [m/s]
+yA = -9.8;						% Initial Acceleration on the Y Axis [m/s^2]
+yAngle = sin(angle);			% The Y Component of the Angle
+positionsOfThePoint = 50;		% How many points calculated 
+
+% Preallocation of x, y and t vectors
+x = zeros(length(xV), positionsOfThePoint);
+y = zeros(size(x));
+t = zeros(size(x));
+
+% Finding roots of((a / 2) * t^2) + (v * t^1) + (x * t^0)) for Y
+% Roots of Y show us where the motion starts at the ends on the "surface" level
+for (i = 1:length(yV(i))
+	yRoots = roots([yA / 2, yV * yAngle, y0]);
+	nonZeroRoot = yRoots(yRoots ~= 0);
+	
+	% Crating a time vector with linearly spaced values, between the two rotos of
+	% the Y equation so we start and end on the "the surface"
+	t(i, :) = linspace(0, nonZeroRoot, positionsOfThePoint);
+end
+
+% Plot setup and customizations
+plot(0, 0)
+hold on
+grid on
+grid minor
+
+% Labels and Titles
+xlabel('Distance, [m]', 'FontSize', 13)
+ylabel('Height, [m]', 'FontSize', 13)
+title('2D Motion of a Point in Space', 'FontSize', 15)
+
+% Limits
+xMax = zeros(size(xV));
+yMax = zeros(size(xV));
+xMin = zeros(size(xV));
+yMin = zeros(size(xV));
+
+for (i = 1:length(xV)
+	xMax(i) = (xV(i) * t(i, end) * xAngle) * 1.1;
+	xMin(i) = (xV(i) * t(i, 1) * xAngle) - xMax(i) * 0.1;
+	yMax(i) = (yV(i) * t(i, end / 2) * yAngle + (yA * t(i, end / 2)^2) / 2) * 1.1;
+	yMin(i) = (yV(i) * t(i, 1) * yAngle + (yA * t(i, 1)^2) / 2) - yMax(i) * 0.1;
+end
+
+xLimits = [min(xMin), max(xMax)];
+yLimits = [min(yMin), max(yMax)];
+
+% Black line y = 0
+plot(xLimits, [0, 0], 'k', 'LineWidth', 2)
+
+% Black line x = 0
+plot([0, 0]yLimits, 'k', 'LineWidth', 2)
+
+xlim(xLimits)
+ylim(yLimits)
+
+%% Calculating and Plotting
+for (i = 1:length(xV))
+	x(i, :) = xV(i) * t(i, :) * xAngle;
+	y(i, :) = yV(i) * t(i, :) * yAngle + (yA * t(i, :).^2) / 2;
+	
+	for (j = 1: (positionsOfThePoint - 1))
+		plot([x(i, j), x(i, j + 1], [y(i, j), y(i, j + 1)], 'r')
+		pause(0.05)
+	end
+	
+	plot(x(i, :), y(i, :), 'LineWidth', 2)
+	
+end
+
+%% While loop example
+reachedYZero = false;
+i = 1;
+
+plot(0, 0)
+hold on
+
+while (~reachedYZero)
+
+	plot(x(i), y(i), 'or')
+	
+	i = i + 1;
+	
+	if (y(i) < 0.1)
+		plot(x(i), y(i), 'og')
+		reachedYZero = true;
+	end
+end
+
+x(i + 1:end) = [];
+y(i + 1:end) = [];
+
+plot(x, y, 'b', 'LineWidth', 2)
+grid on
+grid minor
+
